@@ -1,3 +1,19 @@
+// =============================================================================
+// Module: uart_tx
+// Author: Enrique Fayos Gimeno
+// Date: 2026-08-15
+//
+// Description:
+//   UART transmitter with configurable clock frequency and baud rate.
+//   Transmits 8-bit data using the 8N1 format, LSB first.
+//
+// Default configuration:
+//   Clock:     100 MHz
+//   Baud rate: 115200
+//
+// Reset:
+//   Active-low asynchronous reset.
+// =============================================================================
 module uart_tx #(
     parameter int unsigned CLK_FREQ = 100_000_000,
     parameter int unsigned BAUD_RATE = 115200
@@ -101,5 +117,29 @@ always_comb begin
         end
     endcase
 end
+
+// ASSERTIONS
+//During reset, uart should be idle
+assert_reset_idle: 
+assert property (
+    @(posedge clk) 
+    !rst_n |-> (tx==1'b1 && busy == 1'b0))
+    else $error("[%0t] UART is not idle during reset", $time);
+
+//Whenever transmitter is not busy, tx should be high
+assert_idle_tx_high:
+assert property (
+    @(posedge clk)
+    disable iff (!rst_n)
+    (busy == 1'b0) |-> (tx==1'b1))
+    else $error("[%0t] UART tx is not high when not busy", $time);
+
+//A valid start request should result in a busy signal
+assert_start_sets_busy:
+assert property (
+    @(posedge clk) 
+    disable iff (!rst_n)
+    (start == 1'b1 && busy == 1'b0) |=> (busy == 1'b1))
+    else $error("[%0t] UART did not become busy after start", $time);
 
 endmodule
