@@ -7,12 +7,18 @@
 //   UART transmitter with configurable clock frequency and baud rate.
 //   Transmits 8-bit data using the 8N1 format, LSB first.
 //
-// Default configuration:
-//   Clock:     100 MHz
-//   Baud rate: 115200
+// Interface:
+//   start    - One-clock pulse requesting a new transmission.
+//   data_in  - 8-bit data to transmit.
+//   tx       - UART serial output, idle-high.
+//   busy     - High while a transmission is in progress.
 //
 // Reset:
 //   Active-low asynchronous reset.
+//
+// Default configuration:
+//   Clock:     100 MHz
+//   Baud rate: 115200
 // =============================================================================
 module uart_tx #(
     parameter int unsigned CLK_FREQ = 100_000_000,
