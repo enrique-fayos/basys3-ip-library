@@ -161,6 +161,8 @@ always_comb begin
     endcase
 end
 
+// synthesis translate_off
+
 // ASSERTIONS
 //During reset, the receiver should be inactive
 assert_reset_idle:
@@ -194,5 +196,7 @@ assert property (
     disable iff (!rst_n)
     data_valid |=> !data_valid)
     else $error("[%0t] UART RX data_valid lasted more than one clock cycle", $time);
+
+// synthesis translate_on
 
 endmodule

@@ -124,6 +124,8 @@ always_comb begin
     endcase
 end
 
+// synthesis translate_off
+
 // ASSERTIONS
 //During reset, uart should be idle
 assert_reset_idle: 
@@ -147,5 +149,7 @@ assert property (
     disable iff (!rst_n)
     (start == 1'b1 && busy == 1'b0) |=> (busy == 1'b1))
     else $error("[%0t] UART did not become busy after start", $time);
+
+// synthesis translate_on
 
 endmodule
