@@ -52,7 +52,7 @@ logic [2:0] bit_count;
 logic [7:0] data_reg;
 logic [BAUD_COUNTER_WIDTH-1:0] baud_count;
 
-//SEQUENTIAL LOGIC
+// SEQUENTIAL LOGIC
 always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
         state <= IDLE;
@@ -82,7 +82,7 @@ always_ff @(posedge clk or negedge rst_n) begin
     end
 end
 
-//NEXT-STATE AND OUTPUT LOGIC
+// NEXT-STATE AND OUTPUT LOGIC
 always_comb begin
     next_state = state;
     tx = 1'b1;
@@ -127,7 +127,7 @@ end
 // synthesis translate_off
 
 // ASSERTIONS
-//During reset, uart should be idle
+// During reset, uart should be idle
 assert_reset_idle: 
 assert property (
     @(posedge clk) 
@@ -142,7 +142,7 @@ assert property (
     (busy == 1'b0) |-> (tx==1'b1))
     else $error("[%0t] UART tx is not high when not busy", $time);
 
-//A valid start request should result in a busy signal
+// A valid start request should result in a busy signal
 assert_start_sets_busy:
 assert property (
     @(posedge clk) 

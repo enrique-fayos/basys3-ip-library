@@ -164,14 +164,14 @@ end
 // synthesis translate_off
 
 // ASSERTIONS
-//During reset, the receiver should be inactive
+// During reset, the receiver should be inactive
 assert_reset_idle:
 assert property (
     @(posedge clk)
     !rst_n |-> (state == IDLE && data_valid == 1'b0))
     else $error("[%0t] UART RX is not idle during reset", $time);
 
-//A detected start bit should move the receiver to START_BIT
+// A detected start bit should move the receiver to START_BIT
 assert_start_detected:
 assert property (
     @(posedge clk)
@@ -180,7 +180,7 @@ assert property (
     |=> (state == START_BIT))
     else $error("[%0t] UART RX did not enter START_BIT", $time);
 
-//A valid stop bit should generate data_valid
+// A valid stop bit should generate data_valid
 assert_valid_stop:
 assert property (
     @(posedge clk)
@@ -189,7 +189,7 @@ assert property (
     |=> data_valid)
     else $error("[%0t] UART RX did not assert data_valid after valid stop bit", $time);
 
-//data_valid should only last one clock cycle
+// data_valid should only last one clock cycle
 assert_data_valid_pulse:
 assert property (
     @(posedge clk)
