@@ -24,13 +24,13 @@
 module fft_memory (
     input logic clk,
 
-    input  logic [4:0] address_a,
-    input  logic       write_enable_a,
+    input  logic [4:0]  address_a,
+    input  logic        write_enable_a,
     input  logic [31:0] data_in_a,
     output logic [31:0] data_out_a,
 
-    input  logic [4:0] address_b,
-    input  logic       write_enable_b,
+    input  logic [4:0]  address_b,
+    input  logic        write_enable_b,
     input  logic [31:0] data_in_b,
     output logic [31:0] data_out_b
 );
